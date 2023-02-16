@@ -199,3 +199,48 @@ fn main() {
 |2|7|[false, false, false, false, true, true, false, true, false, false]|[5]|
 |3|5|[false, false, false, false, true, true, true, true, false, false]|[6]|
 |4|6|[false, false, false, false, true, true, true, true, false, false]|[]|
+
+#### 実装(再帰)
+```rs
+use proconio::input;
+fn main() {
+    input! {
+        v: usize,
+        e: usize,
+        s: usize,
+        t: usize,
+    }
+
+    // 正直に (a, b) にするのではなく、
+    // 読む段階で頂点 a を始点とする辺に纏めてしまう。
+    let mut a: Vec<Vec<usize>> = vec![Vec::new(); v];
+    for _ in 0..e {
+        input! {
+            ai: usize,
+            bi: usize,
+        }
+        a[ai].push(bi);
+    }
+
+    // 既に通過した頂点かどうか
+    let mut seen: Vec<bool> = vec![false; v];
+    dfs(&a, &mut seen, s);
+
+    if seen[t] {
+        println!("yes");
+    } else {
+        println!("no");
+    }
+}
+
+fn dfs(a: &[Vec<usize>], seen: &mut [bool], current: usize) {
+    seen[current] = true;
+    for item in a[current].iter() {
+        if seen[*item] {
+            continue;
+        }
+
+        dfs(a, seen, *item);
+    }
+}
+```
