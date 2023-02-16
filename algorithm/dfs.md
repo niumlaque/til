@@ -155,7 +155,7 @@ fn main() {
                 stack.push(p);
 
                 // 全て探索したい場合はこの break を削除。
-                p == t {
+                if p == t {
                     break 'outer;
                 }
             }
