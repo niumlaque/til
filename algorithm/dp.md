@@ -10,7 +10,6 @@ use proconio::input;
 
 fn exec1(n: usize, a: &[i64]) -> i64 {
     use std::cmp;
-
     let mut dp = vec![0; n + 1];
     
     // 何も選ばない状態、初期値。
@@ -30,13 +29,13 @@ mod tests {
     use super::*;
 
     #[test]
-    fn sample1() {
+    fn exec1_sample1() {
         let actual = exec1(3, &[7, -6, 9]);
         assert_eq!(actual, 16);
     }
 
     #[test]
-    fn sample2() {
+    fn exec1_sample2() {
         let actual = exec1(2, &[-9, -16]);
         assert_eq!(actual, 0);
     }
@@ -47,3 +46,32 @@ mod tests {
 
 
 #### 勉強用記事の問題 2
+```rs
+fn exec2(n: usize, w: usize, wv: &[(usize, usize)]) -> usize {
+    use std::cmp;
+    let mut dp = vec![vec![0; w + 1]; n + 1];
+
+    for i in 0..n {
+        for j in 0..=w {
+            if j >= wv[i].0 {
+                dp[i + 1][j] = cmp::max(dp[i][j - wv[i].0] + wv[i].1, dp[i][j]);
+            } else {
+                dp[i + 1][j] = dp[i][j];
+            }
+        }
+    }
+
+    return dp[n][w];
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn exec2_sample1() {
+        let actual = exec2(6, 9, &[(2, 3), (1, 2), (3, 6), (2, 1), (1, 3), (5, 85)]);
+        assert_eq!(actual, 94);
+    }
+}
+```
