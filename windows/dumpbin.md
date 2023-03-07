@@ -11,3 +11,9 @@
 ```sh
 dumpbin.exe /DEPENDENTS <executable>
 ```
+
+## exe や dll が 何 bit か表示する。
+
+```sh
+dumpbin.exe /headers <executable|dll> | findstr machine
+```
